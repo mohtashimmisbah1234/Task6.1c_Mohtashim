@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    
-    environment {
-        EMAIL_RECIPIENT = 'mohtashimmisbah1234@gmail.com'
-    }
-    
     stages {
         stage('Build') {
             steps {
@@ -69,8 +64,8 @@ pipeline {
         success {
             script {
                 echo 'Pipeline succeeded!'
-                emailext(
-                    to: "${EMAIL_RECIPIENT}",
+                mail to(
+                    to: "mohtashimmisbah1234@gmail.com",
                     subject: "Jenkins Pipeline Success",
                     body: "The pipeline completed successfully.",
                     attachLog: true
@@ -81,7 +76,7 @@ pipeline {
             script {
                 echo 'Pipeline failed!'
                 emailext(
-                    to: "${EMAIL_RECIPIENT}",
+                    to: "mohtashimmisbah1234@gmail.com",
                     subject: "Jenkins Pipeline Failure",
                     body: "The pipeline has failed. Check the logs for details.",
                     attachLog: true
