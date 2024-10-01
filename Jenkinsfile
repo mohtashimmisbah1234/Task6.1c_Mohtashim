@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    
+    environment {
+        EMAIL_RECIPIENT = 'mohtashimmisbah1234@gmail.com'
+    }
+    
     stages {
         stage('Build') {
             steps {
@@ -41,7 +46,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Integration Tests on Staging') {
             steps {
                 script {
@@ -64,23 +68,17 @@ pipeline {
         success {
             script {
                 echo 'Pipeline succeeded!'
-                mail to(
-                    to: "mohtashimmisbah1234@gmail.com",
-                    subject: "Jenkins Pipeline Success",
-                    body: "The pipeline completed successfully.",
-                    attachLog: true
-                )
+                mail to: "${EMAIL_RECIPIENT}",
+                     subject: "Jenkins Pipeline Success",
+                     body: "The pipeline completed successfully."
             }
         }
         failure {
             script {
                 echo 'Pipeline failed!'
-                emailext(
-                    to: "mohtashimmisbah1234@gmail.com",
-                    subject: "Jenkins Pipeline Failure",
-                    body: "The pipeline has failed. Check the logs for details.",
-                    attachLog: true
-                )
+                mail to: "${EMAIL_RECIPIENT}",
+                     subject: "Jenkins Pipeline Failure",
+                     body: "The pipeline has failed. Check the logs for details."
             }
         }
     }
