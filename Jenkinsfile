@@ -68,11 +68,13 @@ pipeline {
         success {
             script {
                 echo 'Pipeline succeeded!'
-                mail to: "${EMAIL_RECIPIENT}",
-                     subject: "Jenkins Pipeline Success",
-                     body: "The pipeline completed successfully."
+                emailext to: "${EMAIL_RECIPIENT}",
+                         subject: "Jenkins Pipeline Success",
+                         body: "The pipeline completed successfully.",
+                         attachmentsPattern: "**/build.log",
+                         mimeType: 'text/plain',
+                         attachLog: true
             }
-        }
         failure {
             script {
                 echo 'Pipeline failed!'
