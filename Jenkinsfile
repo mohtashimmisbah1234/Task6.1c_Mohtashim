@@ -71,16 +71,20 @@ pipeline {
                 emailext to: "${EMAIL_RECIPIENT}",
                          subject: "Jenkins Pipeline Success",
                          body: "The pipeline completed successfully.",
-                         attachmentsPattern: "**/build.log",
+                         attachmentsPattern: "**/build.log",  // Optional: specify the log file pattern if needed
                          mimeType: 'text/plain',
                          attachLog: true
             }
+        }
         failure {
             script {
                 echo 'Pipeline failed!'
-                mail to: "${EMAIL_RECIPIENT}",
-                     subject: "Jenkins Pipeline Failure",
-                     body: "The pipeline has failed. Check the logs for details."
+                emailext to: "${EMAIL_RECIPIENT}",
+                         subject: "Jenkins Pipeline Failure",
+                         body: "The pipeline has failed. Check the logs for details.",
+                         attachmentsPattern: "**/build.log",  // Optional: specify the log file pattern if needed
+                         mimeType: 'text/plain',
+                         attachLog: true
             }
         }
     }
